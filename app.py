@@ -14,10 +14,12 @@ app = Flask(__name__)
 os.makedirs("uploads/images", exist_ok=True)
 os.makedirs("uploads/videos", exist_ok=True)
 
-# 建立 ngrok 隧道
-public_url = ngrok.connect(5000)
-print(" * Ngrok tunnel URL:", public_url)
-
+# 下载模型（如果不存在）
+if not os.path.exists("yolov8n.pt"):
+    import urllib.request
+    url = "https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt"
+    urllib.request.urlretrieve(url, "yolov8n.pt")
+    
 # 加载 YOLOv8 模型
 yolo_model = YOLO("yolov8n.pt")
 
